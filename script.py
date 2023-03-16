@@ -57,7 +57,7 @@ if __name__ == "__main__":
     for i in range(len(df)):
         drug = Drug(i + 1,
                     df.iloc[i]["Drug Name"].strip(),
-                    df.iloc[i]["Diluents"].strip().replace("u2019", "'"),
+                    df.iloc[i]["Diluents"].strip(),
                     df.iloc[i]["Storage"].strip(),
                     df.iloc[i]["pH"],
                     incompatibilityArr(df.iloc[i]["Incompatible Drugs"]),
