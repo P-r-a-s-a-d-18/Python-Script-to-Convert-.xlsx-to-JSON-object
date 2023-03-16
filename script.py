@@ -44,7 +44,7 @@ def typeArr(type_of_incompatibility):
                                       res[i][1][0].strip(),
                                       ".".join(res[i][1][1:]).strip())
             json_t = json.dumps(t.__dict__, indent=4)
-            arr.append(json_t)
+            arr.append(json.loads(json_t))
 
     return arr
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
                     typeArr(df.iloc[i]["Type Of Incompatibility"]))
 
         json_obj = json.dumps(drug.__dict__, indent=4)
-        final_data.append(json_obj)
+        final_data.append(json.loads(json_obj))
 
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(final_data, f, ensure_ascii=False, indent=4)
