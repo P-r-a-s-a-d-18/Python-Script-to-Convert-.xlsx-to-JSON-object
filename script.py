@@ -21,22 +21,23 @@ class TypeOfIncompatibility:
 
 
 def incompatibilityArr(incompatible_drugs):
-    res = incompatible_drugs.split(",")
+    res = [x.strip() for x in incompatible_drugs.split(",") if len(x.strip()) != 0]
     for i in range(len(res)):
-        res[i] = res[i].strip().lower()
+        res[i] = res[i].replace(".", "").strip().lower()
     return res
 
 
 def typeArr(type_of_incompatibility):
     arr = []
-    res = type_of_incompatibility.split(" - ")
+    res = [x.strip() for x in type_of_incompatibility.split("\n") if len(x.strip()) != 0]
 
     for i in range(len(res)):
-        res[i] = res[i].split(":")
-        for j in range(len(res[i])):
-            res[i][j] = res[i][j].strip()
+        res[i] = [x.strip() for x in res[i].split(":")]
         if len(res[i]) == 2:
-            res[i][1] = res[i][1].split(".")
+            if "compatible but" in res[i][1]:
+                res[i][1] = res[i][1].split("but")
+            else:
+                res[i][1] = res[i][1].split(".")
 
     for i in range(len(res)):
         if len(res[i]) == 2:
@@ -49,12 +50,16 @@ def typeArr(type_of_incompatibility):
     return arr
 
 
+def demo(type_):
+    pass
+
+
 if __name__ == "__main__":
-    df = pd.read_excel(r"C:\Users\91928\Downloads\Demo Incompatibilities 0.2.xlsx")
+    df = pd.read_excel(r"C:\Users\91928\Downloads\IV incompatible drug data (Complete).xlsx")
     final_data = []
     print(len(df))
 
-    for i in range(len(df)):
+    for i in range(11, 81):
         drug = Drug(i + 1,
                     df.iloc[i]["Drug Name"].strip(),
                     df.iloc[i]["Diluents"].strip(),
@@ -68,3 +73,4 @@ if __name__ == "__main__":
 
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(final_data, f, ensure_ascii=False, indent=4)
+
